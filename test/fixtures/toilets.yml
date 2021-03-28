@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  cleanliness: 1
+  wheel_chair_accessible: false
+  baby_ready: false
+  coordinates: MyString
+
+two:
+  cleanliness: 1
+  wheel_chair_accessible: false
+  baby_ready: false
+  coordinates: MyString
