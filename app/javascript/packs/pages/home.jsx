@@ -1,20 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import token from './token.js';
-import { createContext, useContext } from 'react';
+import { createContext, useState } from 'react';
+import getModal from '../components/modal/getModal';
 
 import Nav from '../components/nav/nav';
 import Map from '../components/map/map';
-import Modal from '../components/modal/modal';
 
 const myToken = token();
 
-const Context = createContext({});
+export const Context = createContext({});
 function Home() {
-  const context = useContext(Context);
+  const [openModal, setOpenModal] = useState(null);
+
   return (
-    <Context.Provider value={{ token: myToken }}>
-      <Modal />
+    <Context.Provider value={{ token: myToken, setOpenModal }}>
+      {getModal(openModal)}
       <Nav username={'guest'} />
       <Map token={myToken} />
     </Context.Provider>

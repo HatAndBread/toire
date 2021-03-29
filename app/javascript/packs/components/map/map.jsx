@@ -1,14 +1,9 @@
 import React from 'react';
 import { useRef, useEffect } from 'react';
-// @ts-ignore
 import mapboxgl from '!mapbox-gl';
 import '../../../../assets/stylesheets/components/map.css';
 
-interface Props {
-  token: string;
-}
-
-const Map: React.FC<Props> = ({ token }) => {
+const Map = ({ token }) => {
   const mapRef = useRef();
   useEffect(() => {
     if (mapRef.current) {
