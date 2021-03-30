@@ -6,36 +6,25 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-require 'csv'
+require Rails.root + 'db/public_toilets.rb'
+require Rails.root + 'db/station_toilets.rb'
 
-filepath = Rails.root + 'db/public_toilets.csv'
+public_toilets = get_public_toilets
+station_toilets = get_station_toilets
 
+current_toilet = public_toilets[0]
 
-arr = []
-CSV.foreach(filepath, headers: true) do |row|
-  row_hash = row.to_h
-  english_hash = {}
-  english_hash[:facility_name] = row_hash["施設名"]
-  english_hash[:address] = row_hash["都道府県"]
-  english_hash[:address] << row_hash["市区町村・番地"] if row_hash["市区町村・番地"]
-  english_hash[:building_name] = row_hash["ビル建物名"]
-  english_hash[:floor] = row_hash["設置フロア"]
-  english_hash[:longitude] = row_hash["経度"]
-  english_hash[:latitude] = row_hash["緯度"]
-  english_hash[:wheel_chair_accessible] = row_hash["車椅子が出入りできる（出入口の有効幅員80cm以上）"] == '○' ? true : false
-  english_hash[:baby_ready] = row_hash["乳幼児用おむつ交換台等を備えている"] == '○' ? true : false
-  english_hash[:url]
-  if row_hash["性別の分け"] == '男性用'
-    english_hash[:gender] = "men"
-  elsif row_hash["性別の分け"] == '女性用'
-    english_hash[:gender] = "women"
-  else
-    english_hash[:gender] = "both"
-  end
-  english_hash[:url_entrance_photo] = row_hash["写真データ（トイレの入り口）"]
-  english_hash[:url_throne_photo] = row_hash["写真データ（トイレ内）"]
-  english_hash[:url_throne_two_photo] = row_hash["写真データ（トイレ内（別角度））"]
-  arr << english_hash
+def extract_number()
 end
 
-puts arr[0]
+
+toilet = Toilet.new
+toilet.wheel_chair_accessible = current_toilet[:wheel_chair_accessible]
+toilet.baby_ready = current_toilet[:baby_ready]
+toilet.latitude = current_toilet[:latitude]
+toilet.longitude = current_toilet[:longitude]
+toilet.facility_name = current_toilet[:facility_name]
+toilet.building_name = current_toilet[:building_name]
+toilet.floor = current_toilet[:floor] ? extract_number(current_toilet[:floor]) : nil
+p current_toilet
+p toilet
