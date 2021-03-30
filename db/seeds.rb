@@ -17,6 +17,7 @@ CSV.foreach(filepath, headers: true) do |row|
   english_hash = {}
   english_hash[:facility_name] = row_hash["施設名"]
   english_hash[:address] = row_hash["都道府県"]
+  english_hash[:address] << row_hash["市区町村・番地"] if row_hash["市区町村・番地"]
   english_hash[:building_name] = row_hash["ビル建物名"]
   english_hash[:floor] = row_hash["設置フロア"]
   english_hash[:longitude] = row_hash["経度"]
@@ -33,8 +34,7 @@ CSV.foreach(filepath, headers: true) do |row|
   end
   english_hash[:url_entrance_photo] = row_hash["写真データ（トイレの入り口）"]
   english_hash[:url_throne_photo] = row_hash["写真データ（トイレ内）"]
-
-
+  english_hash[:url_throne_two_photo] = row_hash["写真データ（トイレ内（別角度））"]
   arr << english_hash
 end
 
