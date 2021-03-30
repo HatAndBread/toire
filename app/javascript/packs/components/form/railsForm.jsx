@@ -1,15 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useContext, useState, useEffect } from 'react';
-import { Context } from '../../pages/home';
+import { useState, useEffect } from 'react';
+
+const requestTypes = ['PUT', 'POST', 'PATCH', 'DELETE', 'GET'];
 
 const RailsForm = ({ requestType, requestUrl, formContent, onSubmit, onError }) => {
   const [requestBody, setRequestBody] = useState({});
-  const post = async () => {
+  const makeRequest = async () => {
     if (!Object.keys(requestBody).length) return;
-    console.log('HI');
     const res = await fetch(requestUrl, {
-      method: 'POST',
+      method: requestType,
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
@@ -38,12 +38,11 @@ const RailsForm = ({ requestType, requestUrl, formContent, onSubmit, onError }) 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!requestType) return;
-    if (requestType === 'POST') {
-      post();
-      return;
-    }
     if (requestType === 'GET') {
       get();
+      return;
+    } else if (requestTypes.includes(requestType)) {
+      makeRequest();
       return;
     }
   };
@@ -58,11 +57,17 @@ const RailsForm = ({ requestType, requestUrl, formContent, onSubmit, onError }) 
   }, [requestBody]);
 
   return (
-    <form onSubmit={handleSubmit} onChange={handleFormChange}>
+    <form onSubmit={handleSubmit} onChange={handleFormChange} style={{ display: 'flex', flexDirection: 'column' }}>
       {formContent.map((formInput, index) => (
-        <label key={index} htmlFor={formInput.id}>
+        <label key={index} htmlFor={formInput.id} style={{ display: 'flex', flexDirection: 'column' }}>
           {formInput.label}
-          <input type={formInput.inputType} name={formInput.name} id={formInput.id}></input>
+          <input
+            type={formInput.inputType}
+            name={formInput.name}
+            id={formInput.id}
+            autoFocus={formInput.autoFocus ? true : false}
+          ></input>
+          <br></br>
         </label>
       ))}
       <button type="submit">Submit</button>
@@ -100,7 +105,8 @@ RailsForm.propTypes = {
       ]),
       name: PropTypes.string,
       id: PropTypes.string,
-      label: PropTypes.string
+      label: PropTypes.string,
+      autoFocus: PropTypes.bool
     })
   ),
   onSubmit: PropTypes.func,

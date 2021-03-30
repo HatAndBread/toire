@@ -4,7 +4,7 @@ import { Context } from '../../pages/home';
 import '../../../../assets/stylesheets/components/modal.css';
 import closerPath from '../../../../assets/images/cross.png';
 
-const Modal = ({ onClose, content }) => {
+const Modal = ({ onClose, content, title }) => {
   const context = useContext(Context);
   return (
     <div className="modal-container">
@@ -22,6 +22,11 @@ const Modal = ({ onClose, content }) => {
             }}
           ></img>
         </div>
+        {title && (
+          <div className="title-container">
+            <h2>{title}</h2>
+          </div>
+        )}
         {content}
       </div>
     </div>
