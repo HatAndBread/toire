@@ -9,12 +9,11 @@
 require Rails.root + 'db/public_toilets.rb'
 require Rails.root + 'db/station_toilets.rb'
 
+Review.delete_all
 Toilet.delete_all
 
 public_toilets = get_public_toilets
 station_toilets = get_station_toilets
-
-current_toilet = station_toilets[0]
 
 def extract_number(string)
   if string.class == String
@@ -30,13 +29,6 @@ def extract_number(string)
   end
 end
 
-100.times do
-  user = User.new
-  user.email = Faker::Internet.email
-  user.password = '123456'
-  user.save
-end
-
 def create_toilet(current_toilet)
   toilet = Toilet.new
   toilet.wheel_chair_accessible = current_toilet[:wheel_chair_accessible]
@@ -50,12 +42,12 @@ def create_toilet(current_toilet)
   rand(0..3).times do
     review = Review.new
     review.toilet = toilet
-    review.user = User.all.sample
+    review.user = Faker::Name.first_name
     review.cleanliness_score = rand(0..4)
     review.content = Faker::Restaurant.review
     review.save
     puts "Toilet with id #{toilet.id} has a new review! 💩
-    #{review.user.email} says \"#{review.content}\" and gave it a cleanliness score of #{review.cleanliness_score}"
+    #{review.user} had this to say: \"#{review.content}\". They gave it a cleanliness score of #{review.cleanliness_score}"
   end
   puts "A new toilet created at #{toilet.latitude}, #{toilet.longitude} 🚽"
 end
