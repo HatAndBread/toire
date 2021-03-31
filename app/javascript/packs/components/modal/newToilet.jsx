@@ -8,8 +8,21 @@ const newToilet = () => {
         requestType="POST"
         requestUrl="/toilets"
         formContent={[
-          { inputType: 'number', name: 'cleanliness', id: 'cleanliness', label: 'Cleanliness ', autoFocus: true },
-          { inputType: 'radio', name: 'password', id: 'password', label: 'Wheel chair accessible: ' }
+          {
+            inputType: 'number',
+            name: 'cleanliness',
+            id: 'cleanliness',
+            label: 'Cleanliness ',
+            autoFocus: true,
+            min: 0,
+            max: 4
+          },
+          {
+            inputType: 'checkbox',
+            name: 'wheel_chair_accessible',
+            id: 'wheel_chair_accessible',
+            label: 'Wheel chair accessible: '
+          }
         ]}
         onSubmit={() => {
           console.log('success!');
