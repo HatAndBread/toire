@@ -20,9 +20,9 @@ const RailsForm = ({ requestType, requestUrl, formContent, onSubmit, onError }) 
     });
     const data = await res.json();
     console.log(data);
-    if (!data || data.error) {
+    if (!data || data.errors || data.error) {
       if (typeof onError === 'function') {
-        onError(data.error ? data.error : 'Something went wrong');
+        onError(data.errors ? data.errors : 'Something went wrong');
         return;
       } else {
         return console.error('Error in ReactForm Component. No error callback given.');

@@ -33,12 +33,14 @@
 }
 .closer {
   cursor: pointer;
-  width: 30px;
+  width: 22px !important;
+  height: 22px;
   transition: 0.3s;
   position: relative;
   right: 10px;
 }
 
 .closer:hover {
-  width: 32px;
+  width: 24px;
+  height: 24px;
 }
