@@ -1,3 +1,3 @@
 class Toilet < ApplicationRecord
-    has_many :toilets, dependent: :destroy
+    has_many :reviews, dependent: :destroy
 end

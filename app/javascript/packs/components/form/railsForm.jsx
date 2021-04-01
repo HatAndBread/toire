@@ -1,35 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Stars from './stars';
 import { useState, useEffect } from 'react';
+import makeRequest from './makeRequest';
 
 const requestTypes = ['PUT', 'POST', 'PATCH', 'DELETE', 'GET'];
 
 const RailsForm = ({ requestType, requestUrl, formContent, onSubmit, onError }) => {
   const [requestBody, setRequestBody] = useState({});
-  const makeRequest = async () => {
-    if (!Object.keys(requestBody).length) return;
-    const res = await fetch(requestUrl, {
-      method: requestType,
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-        'X-CSRF-Token': document.getElementsByName('csrf-token')[0].content
-      },
-      credentials: 'same-origin',
-      body: JSON.stringify(requestBody)
-    });
-    const data = await res.json();
-    console.log(data);
-    if (!data || data.errors || data.error) {
-      if (typeof onError === 'function') {
-        onError(data.errors ? data.errors : 'Something went wrong');
-        return;
-      } else {
-        return console.error('Error in ReactForm Component. No error callback given.');
-      }
-    }
-    if (typeof onSubmit === 'function') onSubmit();
-  };
   const get = async () => {
     if (!requestBody) return;
     const res = await fetch(requestUrl);
@@ -65,14 +43,18 @@ const RailsForm = ({ requestType, requestUrl, formContent, onSubmit, onError }) 
       {formContent.map((formInput, index) => (
         <label key={index} htmlFor={formInput.id} style={{ display: 'flex', flexDirection: 'column' }}>
           {formInput.label ? formInput.label : ''}
-          <input
-            type={formInput.inputType ? formInput.inputType : ''}
-            name={formInput.name ? formInput.name : ''}
-            id={formInput.id ? formInput.id : ''}
-            autoFocus={formInput.autoFocus ? true : false}
-            min={formInput.min || formInput.min === 0 ? formInput.min : ''}
-            max={formInput.max || formInput.max === 0 ? formInput.max : ''}
-          ></input>
+          {formInput.inputType === 'stars' ? (
+            <Stars name={formInput.name} onChange={handleFormChange} />
+          ) : (
+            <input
+              type={formInput.inputType ? formInput.inputType : ''}
+              name={formInput.name ? formInput.name : ''}
+              id={formInput.id ? formInput.id : ''}
+              autoFocus={formInput.autoFocus ? true : false}
+              min={formInput.min || formInput.min === 0 ? formInput.min : ''}
+              max={formInput.max || formInput.max === 0 ? formInput.max : ''}
+            ></input>
+          )}
           <br></br>
         </label>
       ))}
@@ -107,7 +89,8 @@ RailsForm.propTypes = {
         'text',
         'time',
         'url',
-        'week'
+        'week',
+        'stars'
       ]),
       name: PropTypes.string,
       id: PropTypes.string,
