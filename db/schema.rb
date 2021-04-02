@@ -10,10 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_31_054449) do
+ActiveRecord::Schema.define(version: 2021_04_02_103602) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "photo_urls", force: :cascade do |t|
+    t.bigint "toilet_id", null: false
+    t.string "url"
+    t.string "area"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["toilet_id"], name: "index_photo_urls_on_toilet_id"
+  end
 
   create_table "reviews", force: :cascade do |t|
     t.bigint "toilet_id", null: false
@@ -35,7 +44,9 @@ ActiveRecord::Schema.define(version: 2021_03_31_054449) do
     t.string "facility_name"
     t.string "building_name"
     t.integer "floor"
+    t.string "gender"
   end
 
+  add_foreign_key "photo_urls", "toilets"
   add_foreign_key "reviews", "toilets"
 end

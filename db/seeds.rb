@@ -10,6 +10,7 @@ require Rails.root + 'db/public_toilets.rb'
 require Rails.root + 'db/station_toilets.rb'
 
 Review.delete_all
+PhotoUrl.delete_all
 Toilet.delete_all
 
 public_toilets = get_public_toilets
@@ -37,8 +38,21 @@ def create_toilet(current_toilet)
   toilet.longitude = current_toilet[:longitude]
   toilet.facility_name = current_toilet[:facility_name]
   toilet.building_name = current_toilet[:building_name]
+  toilet.gender = current_toilet[:gender]
   toilet.floor = current_toilet[:floor] ? extract_number(current_toilet[:floor]) : nil
   toilet.save
+  if current_toilet[:url_entrace_photo]
+    photo_url_one = PhotoUrl.new( {url: current_toilet[:url_entrance_photo], area: 'entrance', toilet: toilet} )
+    photo_url_one.save
+  end
+  if current_toilet[:url_throne_photo]
+    photo_url_two = PhotoUrl.new( {url: current_toilet[:url_throne_photo], area: 'throne', toilet: toilet})
+    photo_url_two.save
+  end
+  if current_toilet[:url_throne_two_photo]
+    photo_url_three = PhotoUrl.new( {url: current_toilet[:url_throne_two_photo], area: 'throne', toilet: toilet})
+    photo_url_three.save
+  end
   rand(0..3).times do
     review = Review.new
     review.toilet = toilet

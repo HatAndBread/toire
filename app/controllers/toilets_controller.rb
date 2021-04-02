@@ -3,7 +3,7 @@ class ToiletsController < ApplicationController
       toilets = Toilet.where("latitude > ? - 0.015 AND latitude < ? + 0.015 AND longitude > ? - 0.015 AND longitude < ? + 0.015",
         params[:latitude], params[:latitude], params[:longitude], params[:longitude])
       p toilets
-      render json: { toilets: toilets }.to_json(include: [:reviews])
+      render json: { toilets: toilets }.to_json(include: [:reviews, :photo_urls])
 
     end
 

@@ -17,28 +17,25 @@ function Home() {
   const [localToilets, setLocalToilets] = useState(null);
   const [toiletMarkers, setToiletMarkers] = useState([]);
   const [currentToilet, setCurrentToilet] = useState(null);
-  useEffect(() => {
-    console.log('🎉', localToilets);
-  }, [localToilets]);
+
+  const context = {
+    token: myToken,
+    setOpenModal,
+    userLatitude,
+    setUserLatitude,
+    userLongitude,
+    setUserLongitude,
+    localToilets,
+    setLocalToilets,
+    toiletMarkers,
+    setToiletMarkers,
+    currentToilet,
+    setCurrentToilet
+  };
 
   return (
-    <Context.Provider
-      value={{
-        token: myToken,
-        setOpenModal,
-        userLatitude,
-        setUserLatitude,
-        userLongitude,
-        setUserLongitude,
-        localToilets,
-        setLocalToilets,
-        toiletMarkers,
-        setToiletMarkers,
-        currentToilet,
-        setCurrentToilet
-      }}
-    >
-      {getModal(openModal)}
+    <Context.Provider value={context}>
+      {getModal(openModal, context)}
       <Nav username={'guest'} />
       <Map token={myToken} />
     </Context.Provider>

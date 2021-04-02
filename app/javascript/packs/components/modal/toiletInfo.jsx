@@ -6,7 +6,14 @@ const ToiletInfo = () => {
   return (
     <div className="toilet-info-container">
       <div className="address"></div>
-      <div className="reviews">{JSON.stringify(data)}</div>
+      {data['facility_name'] && <div>Facility name: {data['facility_name']}</div>}
+      {data['building_name'] && <div>Building name: {data['building_name']}</div>}
+      <div>Baby changing station: {data['baby_ready'] ? 'Yes' : 'No'}</div>
+      <div className="reviews">
+        {data.reviews.forEach((review) => (
+          <div>{review}</div>
+        ))}
+      </div>
     </div>
   );
 };
