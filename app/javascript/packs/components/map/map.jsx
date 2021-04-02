@@ -1,9 +1,10 @@
 import React from 'react';
-import { useRef, useEffect, useContext } from 'react';
+import { useRef, useEffect, useContext, useState } from 'react';
 import { Context } from '../../pages/home';
 import mapboxgl from '!mapbox-gl';
 import manekiNeko from '../../../../assets/images/maneki-neko.png';
 import toiletIcon from '../../../../assets/images/toilet64.png';
+import toiletInfo from '../modal/toiletInfo';
 import '../../../../assets/stylesheets/components/map.css';
 
 const Map = ({ token }) => {
@@ -12,9 +13,11 @@ const Map = ({ token }) => {
   const userLatitude = context.userLatitude;
   const userLongitude = context.userLongitude;
   const localToilets = context.localToilets;
+  const toiletMarkers = context.toiletMarkers.map((toiletMarker) => toiletMarker);
+  const setToiletMarkers = context.setToiletMarkers;
+  const [mainMap, setMainMap] = useState(null);
 
   useEffect(() => {
-    const toiletMarkers = [];
     const userMarker = document.createElement('div');
     userMarker.className = 'marker';
     userMarker.style.backgroundImage = `url('${manekiNeko}')`;
@@ -26,29 +29,52 @@ const Map = ({ token }) => {
         center: [userLongitude ? userLongitude : 139.6503, userLatitude ? userLatitude : 35.6762],
         zoom: userLatitude && userLongitude ? 15 : 10
       });
+      setMainMap(map);
       if (userLatitude && userLongitude) {
         new mapboxgl.Marker(userMarker).setLngLat([userLongitude, userLatitude]).addTo(map);
         if (localToilets) {
-          localToilets.toilets.forEach((toilet) => {
-            const toiletMarker = document.createElement('div');
-            toiletMarker.className = 'marker';
-            toiletMarker.style.backgroundImage = `url('${toiletIcon}')`;
-            toiletMarkers.push(toiletMarker);
-            new mapboxgl.Marker(toiletMarker).setLngLat([toilet.longitude, toilet.latitude]).addTo(map);
+          const refsArray = [];
+          localToilets.toilets.forEach((toilet, index) => {
+            const myRef = React.createRef();
+            const handleClick = (e) => {
+              context.setCurrentToilet(JSON.parse(e.target.dataset.toilet));
+              context.setOpenModal('toilet-info');
+            };
+            toiletMarkers.push(
+              <div
+                className="marker"
+                ref={myRef}
+                key={index}
+                onClick={handleClick}
+                data-toilet={JSON.stringify(toilet)}
+                style={{ backgroundImage: `url('${toiletIcon}')` }}
+              />
+            );
           });
+          setToiletMarkers(toiletMarkers);
         }
       }
     }
     return () => {
       userMarker.remove();
-      toiletMarkers.forEach((toilet) => {
-        toilet.remove();
-      });
     };
   }, [mapRef, userLatitude, userLongitude, localToilets]);
 
+  useEffect(() => {
+    console.log(toiletMarkers);
+    toiletMarkers.forEach((toiletMarker) => {
+      if (toiletMarker.ref.current) {
+        const toiletData = JSON.parse(toiletMarker.ref.current.dataset.toilet);
+        new mapboxgl.Marker(toiletMarker.ref.current)
+          .setLngLat([toiletData.longitude, toiletData.latitude])
+          .addTo(mainMap);
+      }
+    });
+  }, [toiletMarkers]);
+
   return (
     <div>
+      {toiletMarkers.map((toiletMarker) => toiletMarker)}
       <div id="map" className="map" ref={mapRef}></div>
     </div>
   );

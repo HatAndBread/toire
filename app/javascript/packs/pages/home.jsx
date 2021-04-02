@@ -15,6 +15,8 @@ function Home() {
   const [userLatitude, setUserLatitude] = useState(null);
   const [userLongitude, setUserLongitude] = useState(null);
   const [localToilets, setLocalToilets] = useState(null);
+  const [toiletMarkers, setToiletMarkers] = useState([]);
+  const [currentToilet, setCurrentToilet] = useState(null);
   useEffect(() => {
     console.log('🎉', localToilets);
   }, [localToilets]);
@@ -29,7 +31,11 @@ function Home() {
         userLongitude,
         setUserLongitude,
         localToilets,
-        setLocalToilets
+        setLocalToilets,
+        toiletMarkers,
+        setToiletMarkers,
+        currentToilet,
+        setCurrentToilet
       }}
     >
       {getModal(openModal)}

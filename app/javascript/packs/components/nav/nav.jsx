@@ -25,6 +25,7 @@ const Nav = ({ username }) => {
             console.log(error);
           },
           (data) => {
+            console.log(data);
             context.setLocalToilets(data);
           }
         );
