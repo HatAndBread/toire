@@ -1,0 +1,27 @@
+.reviews {
+  max-width: 500px;
+}
+
+.toilet-info-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.toilet-info-container h2 {
+  text-decoration: underline;
+}
+
+.toilet-info-container .reviews {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.individual-review {
+  margin: 16px;
+}
+
+.cleanliness-stars {
+  display: flex;
+}

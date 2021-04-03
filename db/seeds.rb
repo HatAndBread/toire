@@ -57,7 +57,7 @@ def create_toilet(current_toilet)
     review = Review.new
     review.toilet = toilet
     review.user = Faker::Name.first_name
-    review.cleanliness_score = rand(0..4)
+    review.cleanliness_score = rand(1..4)
     review.content = Faker::Restaurant.review
     review.save
     puts "Toilet with id #{toilet.id} has a new review! 💩

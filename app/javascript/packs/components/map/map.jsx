@@ -13,7 +13,7 @@ const Map = ({ token }) => {
   const userLatitude = context.userLatitude;
   const userLongitude = context.userLongitude;
   const localToilets = context.localToilets;
-  const toiletMarkers = context.toiletMarkers.map((toiletMarker) => toiletMarker);
+  const toiletMarkers = context.toiletMarkers;
   const setToiletMarkers = context.setToiletMarkers;
   const [mainMap, setMainMap] = useState(null);
 
@@ -40,7 +40,7 @@ const Map = ({ token }) => {
               context.setCurrentToilet(JSON.parse(e.target.dataset.toilet));
               context.setOpenModal('toilet-info');
             };
-            toiletMarkers.push(
+            refsArray.push(
               <div
                 className="marker"
                 ref={myRef}
@@ -51,7 +51,7 @@ const Map = ({ token }) => {
               />
             );
           });
-          setToiletMarkers(toiletMarkers);
+          setToiletMarkers(refsArray);
         }
       }
     }
