@@ -9,15 +9,13 @@ import makeRequest from '../form/makeRequest';
 
 const Map = () => {
   const mapContainer = useRef();
-  const mapRef = useRef();
   const userMarkerRef = useRef();
   const context = useContext(Context);
   const userLatitude = context.userLatitude;
   const userLongitude = context.userLongitude;
   const localToilets = context.localToilets;
-  const toiletMarkers = context.toiletMarkers;
-  const setToiletMarkers = context.setToiletMarkers;
   const [mainMap, setMainMap] = useState(null);
+  const toiletMarkerRefs = localToilets ? localToilets.toilets.map(() => React.createRef()) : null;
 
   useEffect(() => {
     mapboxgl.accessToken = process.env.MAPBOX_KEY;
@@ -64,25 +62,11 @@ const Map = () => {
       });
       userMarker = new mapboxgl.Marker(userMarkerRef.current).setLngLat([userLongitude, userLatitude]).addTo(mainMap);
 
-      refsArray = [];
-      localToilets.toilets.forEach((toilet, index) => {
-        const myRef = React.createRef();
-        const handleClick = (e) => {
-          context.setCurrentToilet(JSON.parse(e.target.dataset.toilet));
-          context.setOpenModal('toilet-info');
-        };
-        refsArray.push(
-          <div
-            className="marker"
-            ref={myRef}
-            key={index}
-            onClick={handleClick}
-            data-toilet={JSON.stringify(toilet)}
-            style={{ backgroundImage: `url('${toiletIcon}')` }}
-          />
-        );
+      toiletMarkerRefs.forEach((ref, index) => {
+        new mapboxgl.Marker(ref.current)
+          .setLngLat([localToilets.toilets[index].longitude, localToilets.toilets[index].latitude])
+          .addTo(mainMap);
       });
-      setToiletMarkers(refsArray);
     }
   }, [
     userLatitude,
@@ -92,37 +76,30 @@ const Map = () => {
     mainMap,
     context.setCurrentToilet,
     context.setOpenModal,
-    setToiletMarkers
+    toiletMarkerRefs
   ]);
-
-  useEffect(() => {
-    console.log(toiletMarkers);
-    const toiletGarbage = [];
-    if (mainMap) {
-      toiletMarkers.forEach((toiletMarker) => {
-        if (toiletMarker.ref.current) {
-          const toiletData = JSON.parse(toiletMarker.ref.current.dataset.toilet);
-          const individualToilet = new mapboxgl.Marker(toiletMarker.ref.current)
-            .setLngLat([toiletData.longitude, toiletData.latitude])
-            .addTo(mainMap);
-          toiletGarbage.push(individualToilet);
-        }
-      });
-    }
-
-    // return () => {
-    //   toiletGarbage.forEach((gomi) => {
-    //     console.log(gomi);
-    //     gomi.remove();
-    //   });
-    // };
-  }, [toiletMarkers, mainMap]);
 
   return (
     <div>
       <div className="marker" ref={userMarkerRef} style={{ backgroundImage: `url('${manekiNeko}')` }} />
       <div className="map-container" ref={mapContainer} id="map" />
-      {toiletMarkers.map((toiletMarker) => toiletMarker)}
+      {toiletMarkerRefs &&
+        toiletMarkerRefs.map((ref, index) => {
+          const handleClick = (e) => {
+            context.setCurrentToilet(localToilets[parseInt(e.target.dataset.toilet)]);
+            context.setOpenModal('toilet-info');
+          };
+          return (
+            <div
+              className="marker"
+              ref={ref}
+              key={index}
+              onClick={handleClick}
+              data-toilet={index}
+              style={{ backgroundImage: `url('${toiletIcon}')` }}
+            />
+          );
+        })}
     </div>
   );
 };
