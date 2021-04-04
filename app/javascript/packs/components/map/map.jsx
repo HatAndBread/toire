@@ -3,9 +3,9 @@ import { useRef, useEffect, useContext, useState } from 'react';
 import { Context } from '../../pages/home';
 import mapboxgl from '!mapbox-gl';
 import manekiNeko from '../../../../assets/images/maneki-neko.png';
-import toiletIcon from '../../../../assets/images/toilet64.png';
 import '../../../../assets/stylesheets/components/map.css';
 import makeRequest from '../form/makeRequest';
+import ToiletMarker from './toiletMarker';
 
 const Map = () => {
   const mapContainer = useRef();
@@ -15,7 +15,6 @@ const Map = () => {
   const userLongitude = context.userLongitude;
   const localToilets = context.localToilets;
   const [mainMap, setMainMap] = useState(null);
-  const toiletMarkerRefs = localToilets ? localToilets.toilets.map(() => React.createRef()) : null;
 
   useEffect(() => {
     mapboxgl.accessToken = process.env.MAPBOX_KEY;
@@ -46,8 +45,6 @@ const Map = () => {
     });
 
     setMainMap(map);
-
-    return () => map.remove();
   }, [context.setUserLatitude, context.setUserLongitude, context.setLocalToilets, setMainMap]);
 
   useEffect(() => {
@@ -58,12 +55,6 @@ const Map = () => {
         essential: true
       });
       new mapboxgl.Marker(userMarkerRef.current).setLngLat([userLongitude, userLatitude]).addTo(mainMap);
-      toiletMarkerRefs.forEach((ref, index) => {
-        console.log('HI');
-        new mapboxgl.Marker(ref.current)
-          .setLngLat([localToilets.toilets[index].longitude, localToilets.toilets[index].latitude])
-          .addTo(mainMap);
-      });
     }
   }, [
     userLatitude,
@@ -72,30 +63,15 @@ const Map = () => {
     userMarkerRef,
     mainMap,
     context.setCurrentToilet,
-    context.setOpenModal,
-    toiletMarkerRefs
+    context.setOpenModal
   ]);
 
   return (
     <div>
       <div className="marker" ref={userMarkerRef} style={{ backgroundImage: `url('${manekiNeko}')` }} />
       <div className="map-container" ref={mapContainer} id="map" />
-      {toiletMarkerRefs &&
-        toiletMarkerRefs.map((ref, index) => {
-          const handleClick = () => {
-            context.setCurrentToilet(localToilets.toilets[index]);
-            context.setOpenModal('toilet-info');
-          };
-          return (
-            <div
-              className="marker"
-              ref={ref}
-              key={index}
-              onClick={handleClick}
-              style={{ backgroundImage: `url('${toiletIcon}')` }}
-            />
-          );
-        })}
+      {localToilets &&
+        localToilets.toilets.map((toilet, index) => <ToiletMarker toilet={toilet} mainMap={mainMap} key={index} />)}
     </div>
   );
 };
