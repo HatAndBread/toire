@@ -1,13 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import token from './token.js';
 import { createContext, useState, useEffect } from 'react';
 import getModal from '../components/modal/getModal';
 
 import Nav from '../components/nav/nav';
 import Map from '../components/map/map';
-
-const myToken = token();
 
 export const Context = createContext({});
 function Home() {
@@ -19,7 +16,6 @@ function Home() {
   const [currentToilet, setCurrentToilet] = useState(null);
 
   const context = {
-    token: myToken,
     setOpenModal,
     userLatitude,
     setUserLatitude,
@@ -37,7 +33,7 @@ function Home() {
     <Context.Provider value={context}>
       {getModal(openModal, context)}
       <Nav username={'guest'} />
-      <Map token={myToken} />
+      <Map />
     </Context.Provider>
   );
 }
