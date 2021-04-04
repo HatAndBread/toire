@@ -4,8 +4,9 @@ import { Context } from '../../pages/home';
 import RailsForm from './railsForm';
 import '../../../../assets/stylesheets/components/toiletReviewForm.css';
 
-const ToiletReviewForm = () => {
-  const myId = useContext(Context).currentToilet.id;
+const ToiletReviewForm = ({ setShowReviewForm }) => {
+  const context = useContext(Context);
+  const myId = context.currentToilet.id;
   console.log('HEY HEY HEY', myId);
   const formContent = [
     { inputType: 'textarea', autoFocus: true, name: 'content', id: 'content' },
@@ -20,6 +21,8 @@ const ToiletReviewForm = () => {
         additionalParams={{ toilet: myId }}
         onSubmit={(result) => {
           console.log(result);
+          context.setCurrentToilet(result.toilet);
+          setShowReviewForm(false);
         }}
         onError={(error) => {
           console.log(error);

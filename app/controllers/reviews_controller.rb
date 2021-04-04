@@ -5,7 +5,11 @@ class ReviewsController < ApplicationController
         review = Review.new(review_params)
         toilet = Toilet.find(params[:toilet])
         review.toilet = toilet
-        review.save!
+        if review.save!
+            render json: {toilet: toilet}.to_json(include: [:reviews, :photo_urls])
+        else
+            render json: {errors: review.errors}
+        end
     end
     private
 

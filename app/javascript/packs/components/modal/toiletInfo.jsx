@@ -30,6 +30,8 @@ const ToiletInfo = () => {
     }
   });
 
+  const formatDate = (string) => string.substring(0, string.indexOf('T'));
+
   const stars = (
     <div className="cleanliness-stars">
       Cleanliness: {averageStars ? starImages.map((img) => img) : 'No reviews yet'}
@@ -61,19 +63,20 @@ const ToiletInfo = () => {
       <div className="reviews">
         <h2>Reviews</h2>
         <button onClick={() => setShowReviewForm(true)}>Write a review!</button>
-        {showReviewForm && <ToiletReviewForm />}
+        {showReviewForm && <ToiletReviewForm setShowReviewForm={setShowReviewForm} />}
         {data.reviews.map((review, index) => {
           const reviewDiv = (
             <div className="individual-review" key={index}>
+              <p style={{ fontStyle: 'italic' }}>{formatDate(review.created_at)}</p>
               <p>{review.content}</p>
             </div>
           );
           if (showAllReviews) {
             return reviewDiv;
           }
-          if (index < 1) return reviewDiv;
+          if (index < 3) return reviewDiv;
         })}
-        {!showAllReviews && data.reviews.length > 1 && (
+        {!showAllReviews && data.reviews.length > 3 && (
           <button onClick={() => setShowAllReviews(true)}>Show all reviews</button>
         )}
       </div>
