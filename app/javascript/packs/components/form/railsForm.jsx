@@ -6,6 +6,30 @@ import makeRequest from './makeRequest';
 
 const requestTypes = ['PUT', 'POST', 'PATCH', 'DELETE', 'GET'];
 
+const htmlInputTypes = [
+  'checkbox',
+  'color',
+  'date',
+  'datetime-local',
+  'email',
+  'file',
+  'hidden',
+  'image',
+  'month',
+  'number',
+  'password',
+  'radio',
+  'range',
+  'reset',
+  'search',
+  'submit',
+  'tel',
+  'text',
+  'time',
+  'url',
+  'week'
+];
+
 const RailsForm = ({ requestType, requestUrl, formContent, onSubmit, onError }) => {
   const [requestBody, setRequestBody] = useState({});
   const get = async () => {
@@ -20,7 +44,7 @@ const RailsForm = ({ requestType, requestUrl, formContent, onSubmit, onError }) 
       get();
       return;
     } else if (requestTypes.includes(requestType)) {
-      makeRequest();
+      makeRequest(requestBody, requestUrl, requestType, onError, onSubmit);
       return;
     }
   };
@@ -43,9 +67,17 @@ const RailsForm = ({ requestType, requestUrl, formContent, onSubmit, onError }) 
       {formContent.map((formInput, index) => (
         <label key={index} htmlFor={formInput.id} style={{ display: 'flex', flexDirection: 'column' }}>
           {formInput.label ? formInput.label : ''}
-          {formInput.inputType === 'stars' ? (
-            <Stars name={formInput.name} onChange={handleFormChange} />
-          ) : (
+          {formInput.inputType === 'stars' && (
+            <Stars name={formInput.name ? formInput.name : ''} onChange={handleFormChange} />
+          )}
+          {formInput.inputType === 'textarea' && (
+            <textarea
+              name={formInput.name ? formInput.name : ''}
+              autoFocus={formInput.autoFocus ? true : false}
+              id={formInput.id ? formInput.id : ''}
+            ></textarea>
+          )}
+          {htmlInputTypes.includes(formInput.inputType) && (
             <input
               type={formInput.inputType ? formInput.inputType : ''}
               name={formInput.name ? formInput.name : ''}
@@ -90,7 +122,8 @@ RailsForm.propTypes = {
         'time',
         'url',
         'week',
-        'stars'
+        'stars',
+        'textarea'
       ]),
       name: PropTypes.string,
       id: PropTypes.string,

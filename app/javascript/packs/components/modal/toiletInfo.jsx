@@ -1,6 +1,7 @@
 import React from 'react';
 import { useContext, useState } from 'react';
 import { Context } from '../../pages/home';
+import ToiletReviewForm from '../form/toiletReviewForm';
 import ToiletPhoto from './toiletPhoto';
 import GoodIcon from '../../../../assets/images/good.png';
 import BadIcon from '../../../../assets/images/bad.png';
@@ -13,6 +14,7 @@ import '../../../../assets/stylesheets/components/toiletInfo.css';
 
 const ToiletInfo = () => {
   const [showAllReviews, setShowAllReviews] = useState(false);
+  const [showReviewForm, setShowReviewForm] = useState(false);
   const data = useContext(Context).currentToilet;
   let averageStars = Math.round(
     data.reviews
@@ -28,7 +30,11 @@ const ToiletInfo = () => {
     }
   });
 
-  const stars = <div className="cleanliness-stars">Cleanliness: {starImages.map((img) => img)}</div>;
+  const stars = (
+    <div className="cleanliness-stars">
+      Cleanliness: {averageStars ? starImages.map((img) => img) : 'No reviews yet'}
+    </div>
+  );
   return (
     <div className="toilet-info-container">
       {data.gender === 'both' && <img src={BothIcon} width="50px" />}
@@ -54,7 +60,8 @@ const ToiletInfo = () => {
       )}
       <div className="reviews">
         <h2>Reviews</h2>
-        <button>Write a review!</button>
+        <button onClick={() => setShowReviewForm(true)}>Write a review!</button>
+        {showReviewForm && <ToiletReviewForm />}
         {data.reviews.map((review, index) => {
           const reviewDiv = (
             <div className="individual-review" key={index}>

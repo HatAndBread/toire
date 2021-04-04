@@ -4,7 +4,6 @@ import { Context } from '../../pages/home';
 import mapboxgl from '!mapbox-gl';
 import manekiNeko from '../../../../assets/images/maneki-neko.png';
 import toiletIcon from '../../../../assets/images/toilet64.png';
-import toiletInfo from '../modal/toiletInfo';
 import '../../../../assets/stylesheets/components/map.css';
 
 const Map = ({ token }) => {
