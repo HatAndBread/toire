@@ -31,4 +31,11 @@ h1 {
 
 button {
   cursor: pointer;
+  padding: 8px 16px 8px 16px;
+  border-radius: 16px;
+  font-size: large;
+  background-color: white;
+  color: red;
+  border-color: red;
+  border-style: solid;
 }

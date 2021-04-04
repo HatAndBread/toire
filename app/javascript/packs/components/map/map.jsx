@@ -5,9 +5,11 @@ import mapboxgl from '!mapbox-gl';
 import manekiNeko from '../../../../assets/images/maneki-neko.png';
 import toiletIcon from '../../../../assets/images/toilet64.png';
 import '../../../../assets/stylesheets/components/map.css';
+import makeRequest from '../form/makeRequest';
 
 const Map = ({ token }) => {
   const mapRef = useRef();
+  const userMarkerRef = useRef();
   const context = useContext(Context);
   const userLatitude = context.userLatitude;
   const userLongitude = context.userLongitude;
@@ -17,10 +19,7 @@ const Map = ({ token }) => {
   const [mainMap, setMainMap] = useState(null);
 
   useEffect(() => {
-    const userMarker = document.createElement('div');
-    userMarker.className = 'marker';
-    userMarker.style.backgroundImage = `url('${manekiNeko}')`;
-    if (mapRef.current) {
+    if (mapRef.current && userMarkerRef.current) {
       mapboxgl.accessToken = process.env.MAPBOX_KEY;
       const map = new mapboxgl.Map({
         container: 'map',
@@ -29,8 +28,27 @@ const Map = ({ token }) => {
         zoom: userLatitude && userLongitude ? 15 : 10
       });
       setMainMap(map);
+      map.on('click', (e) => {
+        if (e.originalEvent.target.className === 'mapboxgl-canvas') {
+          console.log(e.lngLat.lng, e.lngLat.lat);
+          context.setUserLatitude(e.lngLat.lat);
+          context.setUserLongitude(e.lngLat.lng);
+          makeRequest(
+            { latitude: e.lngLat.lat, longitude: e.lngLat.lng },
+            '/toilets_near_me',
+            'POST',
+            (error) => {
+              console.log(error);
+            },
+            (data) => {
+              console.log(data);
+              context.setLocalToilets(data);
+            }
+          );
+        }
+      });
       if (userLatitude && userLongitude) {
-        new mapboxgl.Marker(userMarker).setLngLat([userLongitude, userLatitude]).addTo(map);
+        new mapboxgl.Marker(userMarkerRef.current).setLngLat([userLongitude, userLatitude]).addTo(map);
         if (localToilets) {
           const refsArray = [];
           localToilets.toilets.forEach((toilet, index) => {
@@ -54,10 +72,7 @@ const Map = ({ token }) => {
         }
       }
     }
-    return () => {
-      userMarker.remove();
-    };
-  }, [mapRef, userLatitude, userLongitude, localToilets]);
+  }, [mapRef, userLatitude, userLongitude, localToilets, userMarkerRef, setToiletMarkers]);
 
   useEffect(() => {
     console.log(toiletMarkers);
@@ -73,6 +88,7 @@ const Map = ({ token }) => {
 
   return (
     <div>
+      <div className="marker" ref={userMarkerRef} style={{ backgroundImage: `url('${manekiNeko}')` }} />
       {toiletMarkers.map((toiletMarker) => toiletMarker)}
       <div id="map" className="map" ref={mapRef}></div>
     </div>
