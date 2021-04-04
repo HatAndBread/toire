@@ -6,17 +6,18 @@ import '../../../../assets/stylesheets/components/toiletReviewForm.css';
 
 const ToiletReviewForm = () => {
   const myId = useContext(Context).currentToilet.id;
-  console.log('HEY HNEY HEY', myId);
+  console.log('HEY HEY HEY', myId);
   const formContent = [
-    { inputType: 'textarea', autoFocus: true, name: 'review-text-content', id: 'review-text-content' },
-    { inputType: 'stars', name: 'cleanliness', id: 'cleanliness', label: 'cleanliness' }
+    { inputType: 'textarea', autoFocus: true, name: 'content', id: 'content' },
+    { inputType: 'stars', name: 'cleanliness_score', id: 'cleanliness_score', label: 'cleanliness' }
   ];
   return (
     <div>
       <RailsForm
         requestType={'POST'}
-        requestUrl={'/'}
+        requestUrl={`/reviews`}
         formContent={formContent}
+        additionalParams={{ toilet: myId }}
         onSubmit={(result) => {
           console.log(result);
         }}

@@ -30,8 +30,8 @@ const htmlInputTypes = [
   'week'
 ];
 
-const RailsForm = ({ requestType, requestUrl, formContent, onSubmit, onError }) => {
-  const [requestBody, setRequestBody] = useState({});
+const RailsForm = ({ requestType, requestUrl, formContent, onSubmit, onError, additionalParams }) => {
+  const [requestBody, setRequestBody] = useState(additionalParams ? additionalParams : {});
   const get = async () => {
     if (!requestBody) return;
     const res = await fetch(requestUrl);
@@ -98,6 +98,7 @@ const RailsForm = ({ requestType, requestUrl, formContent, onSubmit, onError }) 
 RailsForm.propTypes = {
   requestType: PropTypes.oneOf(['POST', 'GET', 'PATCH', 'PUT', 'DELETE']),
   requestUrl: PropTypes.string,
+  additionalParams: PropTypes.object,
   formContent: PropTypes.arrayOf(
     PropTypes.exact({
       inputType: PropTypes.oneOf([
