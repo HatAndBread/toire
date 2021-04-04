@@ -28,7 +28,6 @@ const Map = () => {
 
     map.on('click', (e) => {
       if (e.originalEvent.target.className === 'mapboxgl-canvas') {
-        console.log(e.lngLat.lng, e.lngLat.lat);
         context.setUserLatitude(e.lngLat.lat);
         context.setUserLongitude(e.lngLat.lng);
         makeRequest(
@@ -52,17 +51,15 @@ const Map = () => {
   }, [context.setUserLatitude, context.setUserLongitude, context.setLocalToilets, setMainMap]);
 
   useEffect(() => {
-    let userMarker;
-    let refsArray;
     if (userLatitude && userLongitude && mainMap && localToilets) {
       mainMap.flyTo({
         center: [userLongitude, userLatitude],
         zoom: 15,
         essential: true
       });
-      userMarker = new mapboxgl.Marker(userMarkerRef.current).setLngLat([userLongitude, userLatitude]).addTo(mainMap);
-
+      new mapboxgl.Marker(userMarkerRef.current).setLngLat([userLongitude, userLatitude]).addTo(mainMap);
       toiletMarkerRefs.forEach((ref, index) => {
+        console.log('HI');
         new mapboxgl.Marker(ref.current)
           .setLngLat([localToilets.toilets[index].longitude, localToilets.toilets[index].latitude])
           .addTo(mainMap);
@@ -85,8 +82,8 @@ const Map = () => {
       <div className="map-container" ref={mapContainer} id="map" />
       {toiletMarkerRefs &&
         toiletMarkerRefs.map((ref, index) => {
-          const handleClick = (e) => {
-            context.setCurrentToilet(localToilets[parseInt(e.target.dataset.toilet)]);
+          const handleClick = () => {
+            context.setCurrentToilet(localToilets.toilets[index]);
             context.setOpenModal('toilet-info');
           };
           return (
@@ -95,7 +92,6 @@ const Map = () => {
               ref={ref}
               key={index}
               onClick={handleClick}
-              data-toilet={index}
               style={{ backgroundImage: `url('${toiletIcon}')` }}
             />
           );
