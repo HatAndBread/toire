@@ -26,6 +26,7 @@ const Map = () => {
 
   useEffect(() => {
     mapboxgl.accessToken = process.env.MAPBOX_KEY;
+    console.log(process.env);
     const map = new mapboxgl.Map({
       container: mapContainer.current,
       style: 'mapbox://styles/mapbox/streets-v11',
