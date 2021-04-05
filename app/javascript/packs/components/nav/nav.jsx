@@ -3,14 +3,16 @@ import { useContext } from 'react';
 import { Context } from '../../pages/home';
 import makeRequest from '../form/makeRequest';
 
-const Nav = () => {
+const Nav = ({ setLoaderHidden }) => {
   const context = useContext(Context);
   const findToilets = () => {
     let ok;
     if (navigator.geolocation) {
+      setLoaderHidden(false);
       ok = 1;
       navigator.geolocation.getCurrentPosition((position, error) => {
         if (error) {
+          setLoaderHidden(true);
           return context.setOpenModal('geo-location-error');
         }
 
@@ -22,16 +24,19 @@ const Nav = () => {
           'POST',
           (error) => {
             console.log(error);
+            setLoaderHidden(true);
           },
           (data) => {
             console.log(data);
             context.setLocalToilets(data);
+            setLoaderHidden(true);
           }
         );
       });
     }
     if (!ok) {
       context.setOpenModal('geo-location-error');
+      setLoaderHidden(true);
     }
   };
 

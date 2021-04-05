@@ -1,9 +1,24 @@
 import React from 'react';
+import { useState } from 'react';
 
-const ToiletPhoto = ({ url }) => {
+const ToiletPhoto = ({ url, area }) => {
+  const [hasError, setHasError] = useState(false);
   return (
     <div>
-      <img src={url} alt={'Photo of a toilet'} className="toilet-photo" />
+      {hasError ? (
+        <a href={url} className="toilet-image-anchor">
+          Image of {area}
+        </a>
+      ) : (
+        <img
+          src={url}
+          className="toilet-photo"
+          alt="Toilet Image"
+          onError={() => {
+            setHasError(true);
+          }}
+        />
+      )}
     </div>
   );
 };

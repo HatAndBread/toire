@@ -7,6 +7,7 @@ import '../../../../assets/stylesheets/components/map.css';
 import makeRequest from '../form/makeRequest';
 import ToiletMarker from './toiletMarker';
 import Nav from '../nav/nav';
+import Loader from '../loader/loader';
 
 const Map = () => {
   const mapContainer = useRef();
@@ -19,6 +20,7 @@ const Map = () => {
   const [userMarkerHidden, setUserMarkerHidden] = useState(true);
   const [showHintOne, setShowHintOne] = useState(true);
   const [showHintTwo, setShowHintTwo] = useState(false);
+  const [loaderHidden, setLoaderHidden] = useState(true);
 
   useEffect(() => {
     !showHintOne && setShowHintTwo(true);
@@ -26,7 +28,6 @@ const Map = () => {
 
   useEffect(() => {
     mapboxgl.accessToken = process.env.MAPBOX_KEY;
-    console.log(process.env);
     const map = new mapboxgl.Map({
       container: mapContainer.current,
       style: 'mapbox://styles/mapbox/streets-v11',
@@ -38,14 +39,17 @@ const Map = () => {
       if (e.originalEvent.target.className === 'mapboxgl-canvas') {
         context.setUserLatitude(e.lngLat.lat);
         context.setUserLongitude(e.lngLat.lng);
+        setLoaderHidden(false);
         makeRequest(
           { latitude: e.lngLat.lat, longitude: e.lngLat.lng },
           '/toilets_near_me',
           'POST',
           (error) => {
+            setLoaderHidden(true);
             console.log(error);
           },
           (data) => {
+            setLoaderHidden(true);
             console.log(data);
             context.setLocalToilets(data);
           }
@@ -81,10 +85,11 @@ const Map = () => {
 
   return (
     <div className="map-wrapper">
+      <Loader hidden={loaderHidden} />
       <div className="find-me-container">
         {showHintOne && <p>Hint: Click anywhere in Tokyo to find the closest toilets ✨</p>}
         {showHintTwo && <p>Hint: Click on a toilet to see its reviews ✨</p>}
-        <Nav />
+        <Nav setLoaderHidden={setLoaderHidden} />
       </div>
       <div className="map-container" ref={mapContainer} id="map"></div>
       {localToilets &&
