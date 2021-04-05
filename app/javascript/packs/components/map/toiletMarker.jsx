@@ -9,13 +9,22 @@ const ToiletMarker = ({ mainMap, toilet }) => {
   const context = useContext(Context);
 
   useEffect(() => {
-    new mapboxgl.Marker(ref.current).setLngLat([toilet.longitude, toilet.latitude]).addTo(mainMap);
+    const handleClick = () => {
+      context.setCurrentToilet(toilet);
+      context.setOpenModal('toilet-info');
+    };
+    const div = document.createElement('div');
+    div.className = 'marker';
+    div.style.backgroundImage = `url('${toiletIcon}')`;
+    div.addEventListener('click', handleClick);
+    new mapboxgl.Marker(div).setLngLat([toilet.longitude, toilet.latitude]).addTo(mainMap);
+
+    return () => {
+      div.removeEventListener('click', handleClick);
+      div.remove();
+    };
   }, [toilet]);
-  const handleClick = () => {
-    context.setCurrentToilet(toilet);
-    context.setOpenModal('toilet-info');
-  };
-  return <div className="marker" ref={ref} onClick={handleClick} style={{ backgroundImage: `url('${toiletIcon}')` }} />;
+  return null;
 };
 
 export default ToiletMarker;
