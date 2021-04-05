@@ -44,5 +44,11 @@ textarea {
 }
 
 .toilet-photo {
-  max-width: 250px;
+  max-width: 400px;
+  width: 100%;
+}
+.photos-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

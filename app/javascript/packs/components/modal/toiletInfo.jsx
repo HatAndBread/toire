@@ -39,6 +39,8 @@ const ToiletInfo = () => {
   );
   return (
     <div className="toilet-info-container">
+      {data['facility_name'] && <div className="review-item">Facility name: {data['facility_name']}</div>}
+      {data['building_name'] && <div className="review-item">Building name: {data['building_name']}</div>}
       {data.gender === 'both' && (
         <label className="review-item">
           Gender: <img src={BothIcon} width="50px" />
@@ -46,8 +48,6 @@ const ToiletInfo = () => {
       )}
       {data.gender === 'men' && <img className="review-item" src={MenIcon} width="50px" />}
       {data.gender === 'women' && <img className="review-item" src={WomenIcon} width="50px" />}
-      {data['facility_name'] && <div className="review-item">Facility name: {data['facility_name']}</div>}
-      {data['building_name'] && <div className="review-item">Building name: {data['building_name']}</div>}
       <div className="review-item">{stars}</div>
       <div className="review-item">
         Baby changing station:{' '}
@@ -57,13 +57,15 @@ const ToiletInfo = () => {
         Wheel chair access:{' '}
         {data['wheel_chair_accessible'] ? <img src={GoodIcon} alt="Good" /> : <img src={BadIcon} alt="Bad" />}
       </div>
-      {data['photo_urls'].length && (
-        <div className="toilet-photos">
-          {data['photo_urls'].map((photo, index) => (
-            <ToiletPhoto url={photo.url} area={photo.area} key={index} />
-          ))}
-        </div>
-      )}
+      <div className="photos-container">
+        {data['photo_urls'].length && (
+          <div className="toilet-photos">
+            {data['photo_urls'].map((photo, index) => (
+              <ToiletPhoto url={photo.url} area={photo.area} key={index} />
+            ))}
+          </div>
+        )}
+      </div>
       <div className="reviews">
         <h2>Reviews</h2>
         <button onClick={() => setShowReviewForm(true)}>Write a review!</button>
