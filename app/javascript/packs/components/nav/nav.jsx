@@ -3,9 +3,8 @@ import { useContext } from 'react';
 import { Context } from '../../pages/home';
 import makeRequest from '../form/makeRequest';
 
-const Nav = ({ username }) => {
+const Nav = () => {
   const context = useContext(Context);
-  const newToiletClick = () => context.setOpenModal('new-toilet');
   const findToilets = () => {
     let ok;
     if (navigator.geolocation) {
@@ -38,8 +37,6 @@ const Nav = ({ username }) => {
 
   return (
     <div>
-      <div className="">Hello, {username}</div>
-      <button onClick={newToiletClick}>New Toilet</button>
       <button onClick={findToilets}>Find Toilets Near Me</button>
     </div>
   );

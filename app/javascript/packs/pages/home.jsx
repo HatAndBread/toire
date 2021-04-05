@@ -32,7 +32,7 @@ function Home() {
   return (
     <Context.Provider value={context}>
       {getModal(openModal, context)}
-      <Nav username={'guest'} />
+      <Nav />
       <Map />
     </Context.Provider>
   );
