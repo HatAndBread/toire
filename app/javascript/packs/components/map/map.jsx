@@ -15,6 +15,7 @@ const Map = () => {
   const userLongitude = context.userLongitude;
   const localToilets = context.localToilets;
   const [mainMap, setMainMap] = useState(null);
+  const [userMarkerHidden, setUserMarkerHidden] = useState(true);
 
   useEffect(() => {
     mapboxgl.accessToken = process.env.MAPBOX_KEY;
@@ -49,6 +50,7 @@ const Map = () => {
 
   useEffect(() => {
     if (userLatitude && userLongitude && mainMap && localToilets) {
+      userMarkerHidden && setUserMarkerHidden(false);
       mainMap.flyTo({
         center: [userLongitude, userLatitude],
         zoom: 15,
@@ -63,12 +65,18 @@ const Map = () => {
     userMarkerRef,
     mainMap,
     context.setCurrentToilet,
-    context.setOpenModal
+    context.setOpenModal,
+    setUserMarkerHidden
   ]);
 
   return (
     <div>
-      <div className="marker" ref={userMarkerRef} style={{ backgroundImage: `url('${manekiNeko}')` }} />
+      <div
+        className="marker"
+        ref={userMarkerRef}
+        style={{ backgroundImage: `url('${manekiNeko}')` }}
+        hidden={userMarkerHidden}
+      />
       <div className="map-container" ref={mapContainer} id="map" />
       {localToilets &&
         localToilets.toilets.map((toilet, index) => <ToiletMarker toilet={toilet} mainMap={mainMap} key={index} />)}
