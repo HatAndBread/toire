@@ -19,6 +19,11 @@
   align-items: center;
   justify-content: space-between;
   padding: 16px;
+  width: 100vw;
+  background-image: asset-url('tokyo.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
   h1 {
     margin-bottom: 8px;
   }
