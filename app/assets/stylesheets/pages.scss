@@ -16,6 +16,12 @@ button {
   color: red;
   border-color: red;
   border-style: solid;
+  transition: 0.3s;
+}
+
+button:hover {
+  color: white;
+  background-color: red;
 }
 
 .title {

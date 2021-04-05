@@ -15,7 +15,9 @@ import '../../../../assets/stylesheets/components/toiletInfo.css';
 const ToiletInfo = () => {
   const [showAllReviews, setShowAllReviews] = useState(false);
   const [showReviewForm, setShowReviewForm] = useState(false);
-  const data = useContext(Context).currentToilet;
+  const context = useContext(Context);
+  const data = context.currentToilet;
+
   let averageStars = Math.round(
     data.reviews
       .map((review) => review['cleanliness_score'])
@@ -37,8 +39,14 @@ const ToiletInfo = () => {
       Cleanliness: {averageStars ? starImages.map((img) => img) : 'No reviews yet'}
     </div>
   );
+  const getDirections = () => {
+    if (context.userLatitude && context.userLongitude) {
+      window.location.href = `https://www.google.com/maps/dir/?api=1&origin=${context.userLatitude}, ${context.userLongitude}&destination=${data.latitude}, ${data.longitude}&travelmode=walking`;
+    }
+  };
   return (
     <div className="toilet-info-container">
+      <button onClick={getDirections}>Get Directions</button>
       {data['facility_name'] && <div className="review-item">Facility name: {data['facility_name']}</div>}
       {data['building_name'] && <div className="review-item">Building name: {data['building_name']}</div>}
       {data.gender === 'both' && (
@@ -46,8 +54,17 @@ const ToiletInfo = () => {
           Gender: <img src={BothIcon} width="50px" />
         </label>
       )}
-      {data.gender === 'men' && <img className="review-item" src={MenIcon} width="50px" />}
-      {data.gender === 'women' && <img className="review-item" src={WomenIcon} width="50px" />}
+      {data.gender === 'men' && (
+        <label>
+          Gender: <img className="review-item" src={MenIcon} width="50px" />
+        </label>
+      )}
+      {data.gender === 'women' && (
+        <label>
+          Gender:
+          <img className="review-item" src={WomenIcon} width="50px" />
+        </label>
+      )}
       <div className="review-item">{stars}</div>
       <div className="review-item">
         Baby changing station:{' '}
@@ -57,16 +74,16 @@ const ToiletInfo = () => {
         Wheel chair access:{' '}
         {data['wheel_chair_accessible'] ? <img src={GoodIcon} alt="Good" /> : <img src={BadIcon} alt="Bad" />}
       </div>
-      <div className="photos-container">
-        {data['photo_urls'].length && (
-          <div className="toilet-photos">
-            {data['photo_urls'].map((photo, index) => (
-              <ToiletPhoto url={photo.url} area={photo.area} key={index} />
-            ))}
-          </div>
-        )}
-      </div>
       <div className="reviews">
+        <div className="photos-container">
+          {data['photo_urls'].length && (
+            <div className="toilet-photos">
+              {data['photo_urls'].map((photo, index) => (
+                <ToiletPhoto url={photo.url} area={photo.area} key={index} />
+              ))}
+            </div>
+          )}
+        </div>
         <h2>Reviews</h2>
         <button onClick={() => setShowReviewForm(true)}>Write a review!</button>
         {showReviewForm && <ToiletReviewForm setShowReviewForm={setShowReviewForm} />}
