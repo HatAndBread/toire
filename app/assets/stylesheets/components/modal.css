@@ -14,15 +14,15 @@
   display: flex;
   flex-direction: column;
   background-color: white;
-  width: fit-content;
-  max-height: 80vh;
-  padding: 16px !important;
   box-shadow: 0px 0px 5px red;
   min-width: 200px;
   border-radius: 16px;
   overflow-x: auto;
+  width: fit-content;
   max-width: 90vw;
+  max-height: 80vh;
   position: absolute;
+  padding: 16px;
 }
 
 .title-container {
