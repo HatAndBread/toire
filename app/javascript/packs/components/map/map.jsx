@@ -6,6 +6,7 @@ import manekiNeko from '../../../../assets/images/maneki-neko.png';
 import '../../../../assets/stylesheets/components/map.css';
 import makeRequest from '../form/makeRequest';
 import ToiletMarker from './toiletMarker';
+import Nav from '../nav/nav';
 
 const Map = () => {
   const mapContainer = useRef();
@@ -16,6 +17,12 @@ const Map = () => {
   const localToilets = context.localToilets;
   const [mainMap, setMainMap] = useState(null);
   const [userMarkerHidden, setUserMarkerHidden] = useState(true);
+  const [showHintOne, setShowHintOne] = useState(true);
+  const [showHintTwo, setShowHintTwo] = useState(false);
+
+  useEffect(() => {
+    !showHintOne && setShowHintTwo(true);
+  }, [showHintOne, setShowHintTwo]);
 
   useEffect(() => {
     mapboxgl.accessToken = process.env.MAPBOX_KEY;
@@ -50,6 +57,8 @@ const Map = () => {
 
   useEffect(() => {
     if (userLatitude && userLongitude && mainMap && localToilets) {
+      setShowHintOne(false);
+      mapContainer.current.scrollIntoView();
       userMarkerHidden && setUserMarkerHidden(false);
       mainMap.flyTo({
         center: [userLongitude, userLatitude],
@@ -70,16 +79,23 @@ const Map = () => {
   ]);
 
   return (
-    <div className="map-component-wrapper">
+    <div className="map-wrapper">
+      <div className="find-me-container">
+        {showHintOne && <p>Hint: Click anywhere in Tokyo to find the closest toilets ✨</p>}
+        {showHintTwo && <p>Hint: Click on a toilet to see its reviews ✨</p>}
+        <Nav />
+      </div>
+      <div className="map-container" ref={mapContainer} id="map"></div>
+      {localToilets &&
+        localToilets.toilets.map((toilet, index) => (
+          <ToiletMarker toilet={toilet} mainMap={mainMap} key={index} setShowHintTwo={setShowHintTwo} />
+        ))}
       <div
         className="marker"
         ref={userMarkerRef}
         style={{ backgroundImage: `url('${manekiNeko}')` }}
         hidden={userMarkerHidden}
       />
-      <div className="map-container" ref={mapContainer} id="map" />
-      {localToilets &&
-        localToilets.toilets.map((toilet, index) => <ToiletMarker toilet={toilet} mainMap={mainMap} key={index} />)}
     </div>
   );
 };

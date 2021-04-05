@@ -28,3 +28,8 @@
 .cleanliness-stars {
   display: flex;
 }
+
+textarea {
+  min-height: 200px;
+  min-width: 250px;
+}

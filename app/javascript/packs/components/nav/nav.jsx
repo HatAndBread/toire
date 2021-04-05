@@ -36,9 +36,9 @@ const Nav = () => {
   };
 
   return (
-    <div>
-      <button onClick={findToilets}>Find Toilets Near Me</button>
-    </div>
+    <button onClick={findToilets} className="near-me-button">
+      Find Toilets Near Me
+    </button>
   );
 };
 

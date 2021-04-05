@@ -4,7 +4,7 @@ import { useContext, useRef, useEffect } from 'react';
 import { Context } from '../../pages/home';
 import toiletIcon from '../../../../assets/images/toilet64.png';
 
-const ToiletMarker = ({ mainMap, toilet }) => {
+const ToiletMarker = ({ mainMap, toilet, setShowHintTwo }) => {
   const ref = useRef();
   const context = useContext(Context);
 
@@ -12,6 +12,7 @@ const ToiletMarker = ({ mainMap, toilet }) => {
     const handleClick = () => {
       context.setCurrentToilet(toilet);
       context.setOpenModal('toilet-info');
+      setShowHintTwo(false);
     };
     const div = document.createElement('div');
     div.className = 'marker';

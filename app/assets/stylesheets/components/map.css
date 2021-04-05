@@ -1,17 +1,18 @@
-#map {
-  width: 100%;
-  height: 100%;
-}
-
-.map-component-wrapper {
+.map-wrapper {
+  position: absolute;
   width: 100vw;
-  height: 100%;
+  height: 100vh;
 }
-
+#map {
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+}
 .marker {
   background-size: cover;
   width: 50px;
   height: 50px;
   border-radius: 50%;
   cursor: pointer;
+  position: fixed;
 }

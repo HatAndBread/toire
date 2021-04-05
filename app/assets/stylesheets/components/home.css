@@ -1,0 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;900&display=swap');
+
+* {
+  margin: 0;
+  padding: 0px;
+  box-sizing: border-box;
+  font-family: 'Rubik', sans-serif;
+  font-weight: 300;
+}
+button {
+  cursor: pointer;
+  padding: 8px 16px 8px 16px;
+  border-radius: 16px;
+  font-size: large;
+  background-color: white;
+  color: red;
+  border-color: red;
+  border-style: solid;
+}
+
+.near-me-button {
+  z-index: 1000;
+  pointer-events: all;
+}
+
+.find-me-container {
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  padding-top: 16px;
+  z-index: 1;
+  height: fit-content;
+  pointer-events: none;
+}
+.find-me-container p {
+  color: white;
+  font-family: monospace;
+  background-color: black;
+  border-radius: 16px;
+  margin: 16px;
+  padding: 8px;
+  transition: 0.3s;
+}
