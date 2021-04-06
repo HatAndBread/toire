@@ -12,4 +12,4 @@ Tokyo Toilet Accessibility Map helps allows users locate wheel chair / baby acce
 - Todos
   ⭐️ Users will be able to add new restrooms to the database.
   ⭐️ Users will be able to report inappropriate comments / reviews.
-  ⭐️ Open the database to public consumption.
+  ⭐️ Open the api to public consumption.
