@@ -5,10 +5,10 @@ const ToiletPhoto = ({ url, area }) => {
   const [hasError, setHasError] = useState(false);
   return (
     <div>
-      {hasError ? (
+      {!hasError ? (
         <button
           onClick={() => {
-            window.location.href = url;
+            window.open(url);
           }}
         >
           Image of {area}
