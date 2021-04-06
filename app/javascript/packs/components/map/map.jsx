@@ -50,7 +50,6 @@ const Map = () => {
           },
           (data) => {
             setLoaderHidden(true);
-            console.log(data);
             context.setLocalToilets(data);
           }
         );
