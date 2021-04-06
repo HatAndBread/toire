@@ -18,6 +18,7 @@ const ToiletReviewForm = ({ setShowReviewForm, setReviewSubmitted }) => {
   }, []);
   return (
     <div>
+      <div ref={bottomRef} />
       <RailsForm
         requestType={'POST'}
         requestUrl={`/reviews`}
@@ -33,7 +34,6 @@ const ToiletReviewForm = ({ setShowReviewForm, setReviewSubmitted }) => {
           console.log(error);
         }}
       />
-      <div ref={bottomRef} />
     </div>
   );
 };
