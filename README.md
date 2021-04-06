@@ -2,7 +2,7 @@
 
 This is the source code for the website / PWA <a href="https://tokyo-toilet-map.herokuapp.com/">Tokyo Toilet Accessibility Map</a>.
 
-Tokyo Toilet Accessibility Map helps users locate wheel chair / baby accessible public restrooms in Tokyo and leave reviews of said restrooms. Data was scraped from the Tokyo Metropolitan government's <a href="https://portal.data.metro.tokyo.lg.jp/">Open Data Catalog Site</a>.
+Tokyo Toilet Accessibility Map allows users to locate and review wheelchair / baby accessible public restrooms in Tokyo. Data was scraped from the Tokyo Metropolitan government's <a href="https://portal.data.metro.tokyo.lg.jp/">Open Data Catalog Site</a>.
 
 - Tech Stack
   ⭐️ Rails
