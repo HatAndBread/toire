@@ -41,7 +41,9 @@ const ToiletInfo = () => {
   );
   const getDirections = () => {
     if (context.userLatitude && context.userLongitude) {
-      window.location.href = `https://www.google.com/maps/dir/?api=1&origin=${context.userLatitude}, ${context.userLongitude}&destination=${data.latitude}, ${data.longitude}&travelmode=walking`;
+      window.open(
+        `https://www.google.com/maps/dir/?api=1&origin=${context.userLatitude}, ${context.userLongitude}&destination=${data.latitude}, ${data.longitude}&travelmode=walking`
+      );
     }
   };
   return (
