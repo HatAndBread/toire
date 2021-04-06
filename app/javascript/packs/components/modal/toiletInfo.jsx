@@ -15,6 +15,7 @@ import '../../../../assets/stylesheets/components/toiletInfo.css';
 const ToiletInfo = () => {
   const [showAllReviews, setShowAllReviews] = useState(false);
   const [showReviewForm, setShowReviewForm] = useState(false);
+  const [reviewSubmitted, setReviewSubmitted] = useState(false);
   const context = useContext(Context);
   const data = context.currentToilet;
 
@@ -89,10 +90,14 @@ const ToiletInfo = () => {
           )}
         </div>
         <h2>Reviews</h2>
-        <div className="button-holder">
-          <button onClick={() => setShowReviewForm(true)}>Write a review!</button>
-        </div>
-        {showReviewForm && <ToiletReviewForm setShowReviewForm={setShowReviewForm} />}
+        {!reviewSubmitted && (
+          <div className="button-holder">
+            <button onClick={() => setShowReviewForm(true)}>Write a review!</button>
+          </div>
+        )}
+        {showReviewForm && (
+          <ToiletReviewForm setShowReviewForm={setShowReviewForm} setReviewSubmitted={setReviewSubmitted} />
+        )}
         {data.reviews.map((review, index) => {
           const reviewDiv = (
             <div className="individual-review" key={index}>

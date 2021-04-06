@@ -1,6 +1,7 @@
 .toilet-info-container {
   display: flex;
   flex-direction: column;
+  padding: 16px;
 }
 
 .toilet-info-container h2 {
@@ -60,6 +61,6 @@ textarea {
 
 @media only screen and (min-width: 800px) {
   .toilet-info-container {
-    width: 500px;
+    width: 480px;
   }
 }
