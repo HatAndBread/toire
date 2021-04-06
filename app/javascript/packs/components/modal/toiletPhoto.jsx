@@ -8,7 +8,7 @@ const ToiletPhoto = ({ url, area }) => {
       {hasError ? (
         <button
           onClick={() => {
-            window.location.href = { url };
+            window.location.href = url;
           }}
         >
           Image of {area}
