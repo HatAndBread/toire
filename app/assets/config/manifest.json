@@ -1,5 +1,11 @@
 {
-  "name": "App",
+  "start_url": "/",
+  "theme_color": "red",
+  "background_color": "red",
+  "orientation": "portrait",
+  "description": "Tokyo's only public toilet review site and map!",
+  "display": "fullscreen",
+  "name": "Tokyo Toilet Accessibility Map",
   "icons": [
     {
       "src": "/android-icon-36x36.png",

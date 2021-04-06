@@ -1,6 +1,7 @@
 .toilet-info-container {
   display: flex;
   flex-direction: column;
+  min-width: 230px;
 }
 
 .toilet-info-container h2 {

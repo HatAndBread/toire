@@ -49,30 +49,38 @@ const ToiletInfo = () => {
   return (
     <div className="toilet-info-container">
       <button onClick={getDirections}>Get Directions</button>
-      {data['facility_name'] && <div className="review-item">Facility name: {data['facility_name']}</div>}
-      {data['building_name'] && <div className="review-item">Building name: {data['building_name']}</div>}
+      {data['facility_name'] && (
+        <div className="review-item" style={{ display: 'flex' }}>
+          Facility name: {data['facility_name']}
+        </div>
+      )}
+      {data['building_name'] && (
+        <div className="review-item" style={{ display: 'flex' }}>
+          Building name: {data['building_name']}
+        </div>
+      )}
       {data.gender === 'both' && (
-        <label className="review-item">
+        <label className="review-item" style={{ display: 'flex' }}>
           Gender: <img src={BothIcon} width="50px" />
         </label>
       )}
       {data.gender === 'men' && (
-        <label>
+        <label style={{ display: 'flex' }}>
           Gender: <img className="review-item" src={MenIcon} width="50px" />
         </label>
       )}
       {data.gender === 'women' && (
-        <label>
+        <label style={{ display: 'flex' }}>
           Gender:
           <img className="review-item" src={WomenIcon} width="50px" />
         </label>
       )}
       <div className="review-item">{stars}</div>
-      <div className="review-item">
+      <div className="review-item" style={{ display: 'flex' }}>
         Baby changing station:{' '}
         {data['baby_ready'] ? <img src={GoodIcon} alt="Good" /> : <img src={BadIcon} alt="Bad" />}
       </div>
-      <div className="review-item">
+      <div className="review-item" style={{ display: 'flex' }}>
         Wheel chair access:{' '}
         {data['wheel_chair_accessible'] ? <img src={GoodIcon} alt="Good" /> : <img src={BadIcon} alt="Bad" />}
       </div>
