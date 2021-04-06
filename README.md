@@ -1,24 +1,15 @@
-# README
+# Tokyo Toilet Accessibility Map
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is the source code for the website / PWA Tokyo Toilet Accessibility Map.
 
-Things you may want to cover:
+Tokyo Toilet Accessibility Map helps allows users locate wheel chair / baby accessible public restrooms in Tokyo and leave reviews of said restrooms. Data was scraped from the Tokyo Metropolitan government's <a href="https://portal.data.metro.tokyo.lg.jp/">Open Data Catalog Site</a>.
 
-* Ruby version
+- Tech Stack
+  ⭐️ Rails
+  ⭐️ React
+  ⭐️ MapBox GL
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+- Todos
+  ⭐️ Users will be able to add new restrooms to the database.
+  ⭐️ Users will be able to report inappropriate comments / reviews.
+  ⭐️ Open the database to public consumption.
