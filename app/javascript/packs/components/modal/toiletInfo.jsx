@@ -48,7 +48,10 @@ const ToiletInfo = () => {
   };
   return (
     <div className="toilet-info-container">
-      <button onClick={getDirections}>Get Directions</button>
+      <div className="button-holder">
+        <button onClick={getDirections}>Get Directions</button>
+      </div>
+      <div className=""></div>
       {data['facility_name'] && (
         <div className="review-item" style={{ display: 'flex' }}>
           Facility name: {data['facility_name']}
@@ -95,7 +98,9 @@ const ToiletInfo = () => {
           )}
         </div>
         <h2>Reviews</h2>
-        <button onClick={() => setShowReviewForm(true)}>Write a review!</button>
+        <div className="button-holder">
+          <button onClick={() => setShowReviewForm(true)}>Write a review!</button>
+        </div>
         {showReviewForm && <ToiletReviewForm setShowReviewForm={setShowReviewForm} />}
         {data.reviews.map((review, index) => {
           const reviewDiv = (

@@ -43,8 +43,17 @@ textarea {
   max-width: 400px;
   width: 100%;
 }
-.photos-container {
+
+.toilet-photos {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.button-holder {
+  width: 100%;
+}
+
+.button-holder button {
+  width: 100%;
 }
