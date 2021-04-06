@@ -8,6 +8,7 @@ const Modal = ({ onClose, content, title }) => {
   const context = useContext(Context);
   return (
     <div className="modal-container">
+      <div className=""></div>
       <div className="modal-box">
         <div className="closer-container">
           <img

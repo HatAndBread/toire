@@ -83,7 +83,7 @@ const ToiletInfo = () => {
           {data['photo_urls'].length && (
             <div className="toilet-photos">
               {data['photo_urls'].map((photo, index) => (
-                <ToiletPhoto url={photo.url} area={photo.area} key={index} />
+                <ToiletPhoto url={photo.url} index={index} key={index} />
               ))}
             </div>
           )}
