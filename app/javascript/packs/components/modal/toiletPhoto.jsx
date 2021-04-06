@@ -6,9 +6,13 @@ const ToiletPhoto = ({ url, area }) => {
   return (
     <div>
       {hasError ? (
-        <a href={url} className="toilet-image-anchor">
+        <button
+          onClick={() => {
+            window.location.href = { url };
+          }}
+        >
           Image of {area}
-        </a>
+        </button>
       ) : (
         <img
           src={url}
