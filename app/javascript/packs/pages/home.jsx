@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createContext, useState } from 'react';
+import { createContext, useState, useEffect } from 'react';
 import getModal from '../components/modal/getModal';
 import Map from '../components/map/map';
 
@@ -12,6 +12,22 @@ function Home() {
   const [localToilets, setLocalToilets] = useState(null);
   const [toiletMarkers, setToiletMarkers] = useState([]);
   const [currentToilet, setCurrentToilet] = useState(null);
+  const [isUsingMobile, setIsUsingMobile] = useState(false);
+
+  useEffect(() => {
+    const isMobile = (width, height) => {
+      if ((width < 600 && height < 1000) || (width < 1000 && height < 600)) return true;
+    };
+    if (isMobile(window.innerWidth, window.innerHeight)) setIsUsingMobile(true);
+    const onResize = () => {
+      if (isMobile(window.innerWidth, window.innerHeight)) {
+        setIsUsingMobile(true);
+      } else {
+        setIsUsingMobile(false);
+      }
+    };
+    window.addEventListener('resize', onResize);
+  }, [setIsUsingMobile]);
 
   const context = {
     setOpenModal,
@@ -24,7 +40,8 @@ function Home() {
     toiletMarkers,
     setToiletMarkers,
     currentToilet,
-    setCurrentToilet
+    setCurrentToilet,
+    isUsingMobile
   };
 
   return (

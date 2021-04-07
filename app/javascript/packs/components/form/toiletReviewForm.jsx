@@ -7,15 +7,17 @@ import '../../../../assets/stylesheets/components/toiletReviewForm.css';
 const ToiletReviewForm = ({ setShowReviewForm, setReviewSubmitted }) => {
   const context = useContext(Context);
   const myId = context.currentToilet.id;
+  const isUsingMobile = context.isUsingMobile;
   const bottomRef = useRef();
   const formContent = [
     { inputType: 'textarea', autoFocus: true, name: 'content', id: 'content' },
     { inputType: 'stars', name: 'cleanliness_score', id: 'cleanliness_score', label: 'cleanliness' }
   ];
   useEffect(() => {
-    bottomRef.current.scrollIntoView();
-    console.log(bottomRef.current);
-  }, []);
+    if (!isUsingMobile) {
+      bottomRef.current.scrollIntoView();
+    }
+  }, [isUsingMobile]);
   return (
     <div>
       <div ref={bottomRef} />
